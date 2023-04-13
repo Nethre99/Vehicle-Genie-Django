@@ -42,7 +42,6 @@ def addVehicle(request):
 
 """    User Vehicle data     """
 
-
 @api_view(['GET'])
 def getUserVehicles(request):
     UserVehicleList = models.UserVehicle.objects.all()
