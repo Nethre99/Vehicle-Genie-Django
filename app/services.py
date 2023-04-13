@@ -1,5 +1,3 @@
-from typing import List, Any
-import pandas as panda
 from sklearn.metrics.pairwise import cosine_similarity
 from django_pandas.io import read_frame
 
@@ -41,7 +39,7 @@ def getSimilarUsers(Id):
     return similar_users
 
 
-def getRecommendedVehicleList(Id):
+def getRecommendations(Id):
     global similar_vehiclePreferences
 
     similarUsers = getSimilarUsers(Id)
@@ -56,3 +54,14 @@ def getRecommendedVehicleList(Id):
     recommendedVehicles -= set(vehiclePreferences[vehiclePreferences == 1].index)
 
     return recommendedVehicles
+
+
+def getRecommendedVehicleList(Id):
+    vehicleIdList = getRecommendations(Id)
+
+    vehicles = models.vehicles.objects.filter(Vehicle_Id__in=vehicleIdList)
+    print(vehicles)
+
+    serializedVehicleList = serializers.VehicleSerializer(vehicles, many=True)
+
+    return serializedVehicleList.data
