@@ -52,7 +52,8 @@ def getUserVehicles(request):
 
 """ Implementation"""
 
-@api_view(['GET'])
+@api_view(['POST'])
 def getRecommendations(request):
-    recommendations = services.getRecommendedVehicleList(3)
+    UserId = request.data.get('Id')
+    recommendations = services.getRecommendedVehicleList(UserId)
     return Response(recommendations)
