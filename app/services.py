@@ -1,5 +1,7 @@
 from typing import List, Any
+import pandas as panda
 from sklearn.metrics.pairwise import cosine_similarity
+from django_pandas.io import read_frame
 
 from . import serializers
 from . import models
@@ -15,14 +17,11 @@ def createUserVehicleMatrix():
     # userVehicle_queryset = models.UserVehicle.objects.filter(Client_Id=Id)
     userVehicle_queryset = models.UserVehicle.objects.all()
 
-    matrix: list[list[Any]] = []
-    # matrix = []
+    # read query set as a dataframe
+    dataframe = read_frame(userVehicle_queryset)
 
-    for user_vehicle in userVehicle_queryset:
-        data_collection = [user_vehicle.Client_Id, user_vehicle.Vehicle_Id]
-        matrix.append(data_collection)
+    matrix = dataframe.groupby(['Client_Id', 'Vehicle_Id']).size().unstack(fill_value=0)
 
-    print(matrix)
     return matrix
 
 
@@ -57,35 +56,3 @@ def getRecommendedVehicleList(Id):
     recommendedVehicles -= set(vehiclePreferences[vehiclePreferences == 1].index)
 
     return recommendedVehicles
-
-
-# def getRecommendedVehicleList(Id):
-#     global similar_vehiclePreferences
-#
-#     similarUsers = getSimilarUsers(Id)
-#     userVehicleMatrix = createUserVehicleMatrix()
-#
-#     vehiclePreferences = None
-#     for user_vehicle in userVehicleMatrix:
-#         if user_vehicle[0] == Id:
-#             vehiclePreferences = user_vehicle
-#             break
-#
-#     if vehiclePreferences is None:
-#         # Handle the case when Id is not found in the matrix
-#         raise ValueError(f"User with Id {Id} not found in the userVehicleMatrix.")
-#
-#     recommendedVehicles = set()
-#     similar_vehiclePreferences = []
-#
-#     for client in similarUsers:
-#         for user_vehicle in userVehicleMatrix:
-#             if user_vehicle[0] == client:
-#                 similar_vehiclePreferences = user_vehicle
-#                 break
-#
-#         recommendedVehicles.update(set(similar_vehiclePreferences[0]))
-#
-#     recommendedVehicles -= set(vehiclePreferences[2])
-#
-#     return recommendedVehicles
