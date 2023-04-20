@@ -7,6 +7,6 @@ urlpatterns = [
     path('getById/<int:pk>/', views.getById),
     path('addVehicle/', views.addVehicle),
     path('getUserVehicle/', views.getUserVehicles),
-    path('getRecommendations/', views.getRecommendations),
+    path('getRecommendations/<int:UserId>/', views.getRecommendations),
 
 ]
