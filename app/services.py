@@ -58,7 +58,7 @@ def getRecommendations(Id):
 
 def getRecommendedVehicleList(Id):
     vehicleIdList = getRecommendations(Id)
-    vehicles = models.vehicles.objects.filter(Vehicle_Id__in=vehicleIdList)
+    vehicles = models.vehicles.objects.filter(vehicle_Id__in=vehicleIdList)
 
     serializedVehicleList = serializers.VehicleSerializer(vehicles, many=True)
     # calculateAccuracy(serializedVehicleList.data, Id)
@@ -67,8 +67,8 @@ def getRecommendedVehicleList(Id):
 
 
 def calculateAccuracy(recommendationList, id):
-    vehicleIds = models.UserVehicle.objects.filter(Client_Id=id).values_list("Vehicle_Id", flat=True)
-    filtered_vehicle_list = [vehicle for vehicle in getAllVehicles() if vehicle['Vehicle_Id'] in vehicleIds]
+    vehicleIds = models.UserVehicle.objects.filter(Client_Id=id).values_list("vehicle_Id", flat=True)
+    filtered_vehicle_list = [vehicle for vehicle in getAllVehicles() if vehicle['vehicle_Id'] in vehicleIds]
 
     # Convert into tuples to set the intersection
     recommendation_tuple = [tuple(recommendationList) for recommendation in recommendationList]

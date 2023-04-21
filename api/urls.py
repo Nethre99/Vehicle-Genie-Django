@@ -8,5 +8,4 @@ urlpatterns = [
     path('addVehicle/', views.addVehicle),
     path('getUserVehicle/', views.getUserVehicles),
     path('getRecommendations/<int:UserId>/', views.getRecommendations),
-
 ]
