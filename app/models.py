@@ -47,7 +47,7 @@ class vehicles(models.Model):
 #     Vehicle_Id = models.BigIntegerField(primary_key=True, db_column='Vehicle_Id')
 
     def __str__(self):
-        return self.Title
+        return self.title
 
     class Meta():
         db_table = 'vehicles'

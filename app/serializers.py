@@ -1,10 +1,11 @@
 from rest_framework import serializers
 from . import models
+from .models import vehicles
 
 
 class VehicleSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.vehicles
+        model = vehicles
         fields = '__all__'
 
 

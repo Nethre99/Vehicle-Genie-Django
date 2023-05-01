@@ -25,7 +25,7 @@ def getAllVehicles(request):
 
 @api_view(['GET'])
 def getById(request, pk):
-    vehicle = models.vehicles.objects.get(Vehicle_Id=pk)
+    vehicle = models.vehicles.objects.get(vehicle_Id=pk)
     serialize = serializers.VehicleSerializer(vehicle, many=False)
     return Response(serialize.data)
 
